@@ -84,14 +84,10 @@ Question 1
 \end_layout
 
 \begin_layout Standard
-TODO
-\end_layout
-
-\begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "getEigenvectors.m"
-lstparams "basicstyle={\\footnotesize\\ttfamily},breaklines=true,caption={ },captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={ },captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
 \end_inset
 
