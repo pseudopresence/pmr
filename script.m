@@ -25,9 +25,11 @@ num_dimensions  = size(sequence_X, 2);
 % DEMO --------------------------------------------------------------------
 
 % visualise the loaded data
-skelPlayData(skeleton, sequence_X, frame_length);
+% skelPlayData(skeleton, sequence_X, frame_length);
 
 % PART 1 ------------------------------------------------------------------
+
+[Mu, E, Lambda, P] = getEigenvectors(sequence_X);
 
 % PART 2 ------------------------------------------------------------------
 

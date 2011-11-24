@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage[usenames,dvipsnames]{color}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -11,7 +14,7 @@
 \fontencoding global
 \font_roman default
 \font_sans default
-\font_typewriter default
+\font_typewriter beramono
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
@@ -25,6 +28,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -87,7 +91,7 @@ TODO
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "getEigenvectors.m"
-lstparams "caption={ },language=Matlab"
+lstparams "basicstyle={\\footnotesize\\ttfamily},breaklines=true,caption={ },captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
 \end_inset
 
