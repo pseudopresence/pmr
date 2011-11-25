@@ -8,12 +8,10 @@ function [NewSeq] = projectSequence(Mu, Eig, Seq)
 %           Column eigenvector
 % OUTPUT NewSeq: [Frames x Features]
 %           The projected sequence
-[N, ~] = size(Seq);
-NewSeq = zeros(size(Seq), class(Seq));
-MMu = ones([N, 1], class(Mu)) * Mu';
+[N, F] = size(Seq);
+MMu = repmat(Mu', [N, 1]);
+MEig = repmat(Eig', [N, 1]);
 Seq2 = Seq - MMu;
-for i = 1 : N
-    Z = dot(Seq2(i, :)', Eig);
-    NewSeq(i, :) = Z * Eig;
-end
-NewSeq = NewSeq + MMu;
+Z = dot(Seq2, MEig, 2);
+MZ = repmat(Z, [1, F]);
+NewSeq = MMu + MZ .* MEig;
