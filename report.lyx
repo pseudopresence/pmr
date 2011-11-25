@@ -198,6 +198,13 @@ name "fig:p1q2"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Question 3
 \end_layout
@@ -458,12 +465,101 @@ Visualising the principal components
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Question 4
+\end_layout
+
+\begin_layout Standard
+Since the eigenvectors form a basis for the original state space, we can
+ project frames onto our principal components.
+ Taking the first two principal components, we project the provided sequence
+ and visualise it as a trajectory in 2D state space.
+ The result is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p1q4"
+
+\end_inset
+
+.
+ The trajectory is repeating, and we can identify four complete walk cycles.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series medium
+\size normal
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
 filename "projectSequence.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={projectSequence.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p1q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p1q4.pdf
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sequence projected in 2-component state space
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p1q4"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 

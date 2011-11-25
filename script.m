@@ -35,25 +35,32 @@ num_dimensions  = size(sequence_X, 2);
 % Get the value of the first element in P which is >= 95
 NComponents = find(P >= 95, 1);
 Y = P(NComponents);
-figure(1);
-plot(P);
-line([4 4], [0 Y]);
-line([0 4], [Y Y]);
+% figure(1);
+% plot(P);
+% line([4 4], [0 Y]);
+% line([0 4], [Y Y]);
+% xlabel('number of components');
+% ylabel('cumulative % variance');
 % Q3:
 % Mean pose
 sequence_Y0 = makeSequence(num_frames, Mu, 0, E(:, 1));
-figure(2);
-skelPlayData(skeleton, sequence_Y0, frame_length);
+% figure(2);
+% skelPlayData(skeleton, sequence_Y0, frame_length);
 % First component
 sequence_Y1 = makeSequence(num_frames, Mu, Lambda(1), E(:, 1));
-figure(3);
-skelPlayData(skeleton, sequence_Y1, frame_length);
+% figure(3);
+% skelPlayData(skeleton, sequence_Y1, frame_length);
 % Second component
 sequence_Y2 = makeSequence(num_frames, Mu, Lambda(2), E(:, 2));
-figure(4);
-skelPlayData(skeleton, sequence_Y2, frame_length);
+% figure(4);
+% skelPlayData(skeleton, sequence_Y2, frame_length);
 % Q4:
-% sequence_Y = projectSequence(Mu, E(:, 1), sequence_X);
+Z1 = projectSequence(Mu, E(:, 1), sequence_X);
+Z2 = projectSequence(Mu, E(:, 2), sequence_X);
+figure(5);
+line('XData', Z1, 'YData', Z2);
+xlabel('Component 1');
+ylabel('Component 2');
 % skelPlayData(skeleton, sequence_Y, frame_length);
 
 % PART 2 ------------------------------------------------------------------

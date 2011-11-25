@@ -6,3 +6,5 @@ figure(1);
 plot(P);
 line([4 4], [0 Y]);
 line([0 4], [Y Y]);
+xlabel('number of components');
+ylabel('cumulative % variance');
