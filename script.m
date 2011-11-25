@@ -33,10 +33,13 @@ num_dimensions  = size(sequence_X, 2);
 % Q2:
 [Mu, E, Lambda, P] = getEigenvectors(sequence_X);
 % Get the value of the first element in P which is >= 95
-Y = P(find(P >= 95, 1));
-plot(P);
-line([4 4], [0 Y]);
-line([0 4], [Y Y]);
+%Y = P(find(P >= 95, 1));
+%plot(P);
+%line([4 4], [0 Y]);
+%line([0 4], [Y Y]);
+% Q3:
+sequence_Y = projectSequence(Mu, E(:, 1), sequence_X);
+skelPlayData(skeleton, sequence_Y, frame_length);
 
 % PART 2 ------------------------------------------------------------------
 

@@ -1,16 +1,16 @@
 function [Mu, E, Lambda, P] = getEigenvectors(Sequence)
 % getEigenvectors computes the eigenvectors and eigenvalues of a dataset.
-% INPUT Sequence:
+% INPUT Sequence: [Frames x Features]
 %           Matrix with instances as rows and features as columns.
-% OUTPUT Mu:
+% OUTPUT Mu: [Features x 1]
 %           Column vector of means for each feature.
-%        Lambda:
+%        Lambda: [Features x 1]
 %           Column vector eigenvalues of covariance matrix, in descending
 %           order.
-%        E:
+%        E: [Features x Features]
 %           Matrix whose columns are the eigenvectors of the covariance
 %           matrix in corresponding order with the eigenvalues in lambda.
-%        P:
+%        P: [Features x 1]
 %           Column vector of the cumulative percentage of variance
 %           explained by each of the eigenvalues in lambda.
 
