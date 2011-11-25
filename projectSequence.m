@@ -1,17 +1,18 @@
 function [NewSeq] = projectSequence(Mu, Eig, Seq)
 % projectSequence projects a data sequence onto one of its eigenvectors.
-% INPUT Seq: [Frames x Features]
+% INPUT Seq: [NFrames x NFeatures]
 %           Input data sequence
-%       Mu: [Features x 1]
+%       Mu: [NFeatures x 1]
 %           Average of the features in the data sequence
-%       Eig: [Features x 1]
+%       Eig: [NFeatures x 1]
 %           Column eigenvector
-% OUTPUT NewSeq: [Frames x Features]
+% OUTPUT NewSeq: [NFrames x NFeatures]
 %           The projected sequence
-[N, F] = size(Seq);
-MMu = repmat(Mu', [N, 1]);
-MEig = repmat(Eig', [N, 1]);
-Seq2 = Seq - MMu;
-Z = dot(Seq2, MEig, 2);
-MZ = repmat(Z, [1, F]);
-NewSeq = MMu + MZ .* MEig;
+[NFrames, ~] = size(Seq);
+NewSeq = zeros(size(Seq), class(Seq));
+for i = 1 : NFrames
+    % Find length of the projection of the frame's deviation from the mean
+    Z = dot(Seq(i, :)' - Mu, Eig);
+    % Reconstruct frame based on that length alone
+    NewSeq(i, :) = Mu + Z * Eig;
+end
