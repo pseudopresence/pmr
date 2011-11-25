@@ -239,11 +239,30 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 \end_layout
 
 \begin_layout Standard
-The mean pose is shown in Figure TODO.
- The first component, shown at one standard deviation in Figure TODO, captures
- mostly the swing and yaw of the shoulder and hip joints.
- The second component, shown at one standard deviation in Figure TODO, captures
- mostly the bend of the knees and ankles.
+The mean pose is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p1q3a"
+
+\end_inset
+
+.
+ The first component, shown at one standard deviation in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p1q3b"
+
+\end_inset
+
+, captures mostly the swing and yaw of the shoulder and hip joints.
+ The second component, shown at one standard deviation in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p1q3c"
+
+\end_inset
+
+, captures mostly the bend of the knees and ankles.
 \end_layout
 
 \begin_layout Standard
@@ -253,19 +272,29 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Graphics
 	filename p1q3-mean.pdf
-	scale 75
+	scale 50
 
 \end_inset
 
@@ -279,9 +308,12 @@ Mean Pose
 \end_inset
 
 
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p1q3a"
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
@@ -289,6 +321,22 @@ Mean Pose
 
 
 \end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -299,7 +347,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename p1q3-comp1.pdf
-	scale 75
+	scale 50
 
 \end_inset
 
@@ -317,12 +365,35 @@ Component 1 at one st.
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p1q3b"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
 
 
 \end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "33col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -333,7 +404,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename p1q3-comp2.pdf
-	scale 75
+	scale 50
 
 \end_inset
 
@@ -351,6 +422,30 @@ Component 2 at one st.
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p1q3c"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Visualising the principal components
 \end_layout
 
 \end_inset
