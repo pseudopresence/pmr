@@ -99,7 +99,54 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO
+The first two eigenvalues for the provided dataset are 1401.9 and 631.2.
+ As shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p1q2"
+
+\end_inset
+
+, the first 4 components are enough to explain 95.8% of the variance in the
+ dataset.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p1q2img1-cropped.pdf
+	scale 80
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Cumulative % variance with increasing components
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p1q2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
