@@ -1,6 +1,5 @@
-Z1 = projectSequence(Mu, E(:, 1), sequence_X);
-Z2 = projectSequence(Mu, E(:, 2), sequence_X);
+Z = projectSequence(Mu, E, sequence_X, 2);
 figure(5);
-line('XData', Z1, 'YData', Z2);
+line('XData', Z(:, 1), 'YData', Z(:, 2));
 xlabel('Component 1');
 ylabel('Component 2');
