@@ -7,7 +7,7 @@
 % you have finished using MATLAB, quit from the MATLAB session so that 
 % others can work.
 
-% INITIALISATION ----------------------------------------------------------
+%% INITIALISATION ----------------------------------------------------------
 
 % clear the console
 clc;
@@ -22,39 +22,43 @@ addtoolboxes;
 num_frames      = size(sequence_X, 1);
 num_dimensions  = size(sequence_X, 2);
 
-% DEMO --------------------------------------------------------------------
+%% DEMO --------------------------------------------------------------------
 
 % visualise the loaded data
 % skelPlayData(skeleton, sequence_X, frame_length);
 
-% PART 1 ------------------------------------------------------------------
+%% PART 1 ------------------------------------------------------------------
 
-% Q1: getEigenvectors.m
-% Q2:
+%% Q1: getEigenvectors.m
+%% Q2:
 [Mu, E, Lambda, P] = getEigenvectors(sequence_X);
-% Get the value of the first element in P which is >= 95
+% Get the index of the first element in P which is >= 95.
 NComponents = find(P >= 95, 1);
+% Get its value.
 Y = P(NComponents);
-% figure(1);
-% plot(P);
-% line([4 4], [0 Y]);
-% line([0 4], [Y Y]);
-% xlabel('number of components');
-% ylabel('cumulative % variance');
-% Q3:
-% Mean pose
+figure(1);
+plot(P);
+line([4 4], [0 Y]);
+line([0 4], [Y Y]);
+xlabel('number of components');
+ylabel('cumulative % variance');
+set(gca,'XTick',sort([0:10:num_dimensions NComponents]));
+set(gca,'YTick',sort([0:10:100 Y]));
+%% Q3:
+% Visualise the mean pose.
 sequence_Y0 = makeSequence(num_frames, Mu, 0, E(:, 1));
-% figure(2);
-% skelPlayData(skeleton, sequence_Y0, frame_length);
-% First component
+%figure(2);
+%skelPlayData(skeleton, sequence_Y0, frame_length);
+% Visualise the first component.
 sequence_Y1 = makeSequence(num_frames, Mu, Lambda(1), E(:, 1));
-% figure(3);
-% skelPlayData(skeleton, sequence_Y1, frame_length);
-% Second component
+%figure(3);
+%skelPlayData(skeleton, sequence_Y1, frame_length);
+% Visualise the second component.
 sequence_Y2 = makeSequence(num_frames, Mu, Lambda(2), E(:, 2));
-% figure(4);
-% skelPlayData(skeleton, sequence_Y2, frame_length);
-% Q4:
+%figure(4);
+%skelPlayData(skeleton, sequence_Y2, frame_length);
+%% Q4:
+% Z: [NFrames x 2]
 Z = projectSequence(Mu, E, sequence_X, 2);
 figure(5);
 line('XData', Z(:, 1), 'YData', Z(:, 2));
@@ -62,8 +66,8 @@ xlabel('Component 1');
 ylabel('Component 2');
 % skelPlayData(skeleton, sequence_Y, frame_length);
 
-% PART 2 ------------------------------------------------------------------
+%% PART 2 ------------------------------------------------------------------
 
-% PART 3 ------------------------------------------------------------------
+%% PART 3 ------------------------------------------------------------------
 
-% PART 4 ------------------------------------------------------------------
+%% PART 4 ------------------------------------------------------------------

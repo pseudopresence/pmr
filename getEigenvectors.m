@@ -14,19 +14,17 @@ function [Mu, E, Lambda, P] = getEigenvectors(Sequence)
 %           Column vector of the cumulative percentage of variance
 %           explained by each of the eigenvalues in lambda.
 
-% Compute the mean vector and covariance matrix for the sequence
+% Compute the mean vector for the sequence.
 Mu = mean(Sequence)';
-Cov = cov(Sequence);
-% Compute a matrix V with the eigenvectors as columns,
-% and a diagonal matrix D of the corresponding eigenvalues.
-[V, D] = eig(Cov);
-% Get the eigenvalues as a column vector
-L = diag(D);
-% Sort the eigenvalues in descending order, and get the corresponding
-% indices of the sorted entries in the original matrix
-[Lambda, I] = sort(L, 1, 'descend');
-% Use the index vector to get the sorted eigenvectors
+% Compute the eigendecomposition of the covariance matrix.
+% V: [NFeatures x NFeatures] has the eigenvectors as columns.
+% D: [NFeatures x NFeatures] is a diagonal matrix of the eigenvalues.
+[V, D] = eig(cov(Sequence));
+% Extract and sort the eigenvalues in descending order.
+% I: [NFeatures x 1] stores the corresponding indices of the sorted entries
+% in the original matrix.
+[Lambda, I] = sort(diag(D), 1, 'descend');
+% Use the index vector to get the sorted eigenvectors.
 E = V(:, I);
-% Get the cumulative sum of the variances explained by each eigenvector
+% Get the cumulative sum of the variance % explained by each eigenvector.
 P = 100 * cumsum(Lambda) / sum(Lambda);
-    
