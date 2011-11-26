@@ -1,16 +1,17 @@
-function [ZSeq] = projectSequence(Mu, Eig, Seq)
-% projectSequence projects a data sequence onto one of its eigenvectors.
+function [ZSeq] = projectSequence(Mu, E, Seq, ZDims)
+% projectSequence projects a data sequence onto the first ZDims components.
 % INPUT Seq: [NFrames x NFeatures]
 %           Input data sequence
 %       Mu: [NFeatures x 1]
 %           Average of the features in the data sequence
-%       Eig: [NFeatures x 1]
-%           Column eigenvector
-% OUTPUT ZSeq: [NFrames x 1]
+%       E: [NFeatures x NFeatures]
+%           Column eigenvector matrix
+% OUTPUT ZSeq: [NFrames x ZDims]
 %           The projected sequence
 [NFrames, ~] = size(Seq);
-ZSeq = zeros([NFrames 1], class(Seq));
-for i = 1 : NFrames
-    % Find length of the projection of the frame's deviation from the mean
-    ZSeq(i) = dot(Seq(i, :)' - Mu, Eig);
-end
+% Transformation to the reduced space
+W = E(:, 1:ZDims);
+% Replicate the mean into a matrix
+MMu = repmat(Mu', [NFrames 1]);
+% Perform the transformation
+ZSeq = (Seq - MMu) * W;
