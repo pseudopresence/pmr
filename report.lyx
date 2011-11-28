@@ -123,8 +123,10 @@ We use the function defined in the last question to process the provided
  dataset.
  We use 
 \family typewriter
+\size footnotesize
 find
 \family default
+\size default
  to find the index of the last component required to explain 95% or more
  of the variation in the dataset.
 \end_layout

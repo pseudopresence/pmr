@@ -36,14 +36,14 @@ num_dimensions  = size(sequence_X, 2);
 NComponents = find(P >= 95, 1);
 % Get its value.
 Y = P(NComponents);
-figure(1);
-plot(P);
-line([4 4], [0 Y]);
-line([0 4], [Y Y]);
-xlabel('number of components');
-ylabel('cumulative % variance');
-set(gca,'XTick',sort([0:10:num_dimensions NComponents]));
-set(gca,'YTick',sort([0:10:100 Y]));
+%figure(1);
+%plot(P);
+%line([4 4], [0 Y]);
+%line([0 4], [Y Y]);
+%xlabel('number of components');
+%ylabel('cumulative % variance');
+%set(gca,'XTick',sort([0:10:num_dimensions NComponents]));
+%set(gca,'YTick',sort([0:10:100 Y]));
 %% Q3:
 % Visualise the mean pose.
 sequence_Y0 = makeSequence(num_frames, Mu, 0, E(:, 1));
@@ -60,14 +60,19 @@ sequence_Y2 = makeSequence(num_frames, Mu, Lambda(2), E(:, 2));
 %% Q4:
 % Z: [NFrames x 2]
 Z = projectSequence(Mu, E, sequence_X, 2);
-figure(5);
-line('XData', Z(:, 1), 'YData', Z(:, 2));
-xlabel('Component 1');
-ylabel('Component 2');
+%figure(5);
+%line('XData', Z(:, 1), 'YData', Z(:, 2));
+%xlabel('Component 1');
+%ylabel('Component 2');
 % skelPlayData(skeleton, sequence_Y, frame_length);
 
 %% PART 2 ------------------------------------------------------------------
-
+%% Q1:
+figure(6);
+Net = gtm1dinittrain(sequence_X, E, 50, 7, 200);
+%% Q2:
+P = gtmprob(Net, sequence_X)
+L = sum(log(P));
 %% PART 3 ------------------------------------------------------------------
 
 %% PART 4 ------------------------------------------------------------------
