@@ -496,6 +496,20 @@ reference "fig:p1q4"
 \end_layout
 
 \begin_layout Standard
+The corners in the motion correspond to the points in the walk cycle where
+ the feet touch the ground and the direction of the main component reverses.
+ As we can see, the walk cycle is asymmetric; there is much less motion
+ along the second component on one step as opposed to the other.
+ Looking back to the original animation, we notice the gait is indeed asymmetric
+; for example, the left ankle does not bend at all whereas the right ankle
+ shows clear compliance and toe-off during the walk.
+\end_layout
+
+\begin_layout Standard
+TODO - have animation of state space with walk cycle?
+\end_layout
+
+\begin_layout Standard
 \begin_inset VSpace defskip
 \end_inset
 
@@ -559,10 +573,6 @@ name "fig:p1q4"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -580,12 +590,95 @@ Question 1
 TODO
 \end_layout
 
+\begin_layout Standard
+- 50 samples are the samples of p(z) which is uniform and its parameters
+ don't change, so the sample points are uniform and unchanging in latent
+ (z) space.
+\end_layout
+
+\begin_layout Standard
+- 7 basis functions have uniform centers and some width parameters, in z-space;
+ they aren't learned, just picked.
+\end_layout
+
+\begin_layout Standard
+- get a multimodal distribution p(z|x) because of overlap areas
+\end_layout
+
+\begin_layout Standard
+- the mixture of gaussians we learn with EM is 1/K 
+\backslash
+sum p(x|z; W) so the prior for the components is always 1/K.
+ 
+\end_layout
+
+\begin_layout Standard
+TODO - have animation of distrib p(z) as walk cycle.
+ It's bad because it's multimodal for part of the walk cycle!
+\end_layout
+
+\begin_layout Standard
+we can draw the latent space as a trajectory in 2D space because all of
+ the transformations we make preserve continuity: basis expansion uses continuou
+s RBFs, matrix transform is continuous, projection onto principal components
+ is continuous.
+\end_layout
+
+\begin_layout Standard
+The GTM isn't taking into account the time at all - just treating all the
+ values in the sequence as independent datapoints! So the 1D case with some
+ overlap can actually be a good fit to the data, it just doesn't give us
+ as useful a model.
+ (Log likelihood isn't bad, but not as useful a model as it could be - varying
+ z goes all over the place, doesn't represent our cycle.)
+\end_layout
+
+\begin_layout Standard
+More centers -> more params to fit, can get a better fit.
+\end_layout
+
+\begin_layout Standard
+TODO - can relate (the log likelihood) to (the quality of the fit as judged
+ by eyeballing the plots)
+\end_layout
+
+\begin_layout Standard
+Why do some parts of hte latent space get optimised away from the data?
+ Corresponds to some number of the RBFs getting large weights in the W matrix
+\end_layout
+
+\begin_layout Standard
+We want P(z|x_n).
+ Instead of computing the whole distribution we just compute the mean, and
+ we are using the samples z_i to approximate this.
+ P(z_i|x_n) is called the responsibility of component i; E(z|x_n) = sum_i=1^K
+ P(z_i|x_n)z_i
+\end_layout
+
+\begin_layout Standard
+- In 2D, the number of samples is per dimension, so 50 x 50 samples
+\end_layout
+
+\begin_layout Standard
+- Compute P(z_i|x_n) using bayes rule; P(x_n|z_i) is our gaussian posterior
+ we define as part of the model, and P(z_i) priors are uniform.
+\end_layout
+
 \begin_layout Subsection*
 Question 2
 \end_layout
 
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Standard
+we use sum(log(P)) rather than log(prod(P)) because the latter will cause
+ underflow
+\end_layout
+
+\begin_layout Standard
+-7.9385e-04
 \end_layout
 
 \begin_layout Subsection*
@@ -614,6 +707,12 @@ Question 1
 
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Standard
+Using W'(x - 
+\backslash
+mu) gives results that look sensible, but why does it work??
 \end_layout
 
 \begin_layout Subsection*

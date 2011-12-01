@@ -68,11 +68,31 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 
 %% PART 2 ------------------------------------------------------------------
 %% Q1:
-figure(6);
-Net = gtm1dinittrain(sequence_X, E, 50, 7, 200);
+%figure(6);
+%Net = gtm1dinittrain(sequence_X, E, 50, 7, 200);
 %% Q2:
-P = gtmprob(Net, sequence_X)
-L = sum(log(P));
+%P = gtmprob(Net, sequence_X);
+%L = sum(log(P))
+%% Q3:
+% TODO
+%% Q4:
+%Net2D = gtm2dinittrain(sequence_X, 50, 10, 50);
+%Means = gtmlmean(Net2D, sequence_X);
+%figure(7);
+%line('XData', Means(:, 1), 'YData', Means(:, 2));
 %% PART 3 ------------------------------------------------------------------
-
+%% Q1:
+[F,Mu,DiagPsi,LL] = fa(sequence_X, 2, 50);
+MMu = repmat(Mu', [num_frames 1]);
+sequence_Z_FA = (sequence_X - MMu) * pinv(F)';
+figure(8);
+line('XData', sequence_Z_FA(:, 1), 'YData', sequence_Z_FA(:, 2));
+%% Q2:
+% N/A
+%% Q3:
+% TODO
+% PCA removes the covariance between the features, so would be useless for
+% FA which tried to discover covariance? Not sure on this (the FA side).
+% TODO
 %% PART 4 ------------------------------------------------------------------
+% TODO
