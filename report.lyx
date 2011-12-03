@@ -163,6 +163,21 @@ reference "fig:p1q2"
 \end_layout
 
 \begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p1q2.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement H
 wide false
@@ -506,7 +521,16 @@ The corners in the motion correspond to the points in the walk cycle where
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 TODO - have animation of state space with walk cycle?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -587,44 +611,92 @@ Question 1
 \end_layout
 
 \begin_layout Standard
-TODO
+We use the 
+\family typewriter
+\size footnotesize
+gtm1dinittrain
+\family default
+\size default
+ function to train a GTM model with a 1D latent space using the EM algorithm.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p2q1"
+
+\end_inset
+
+ we project the frames of the sequence and the 50 gaussians of the GTM mixture
+ model into the space defined by the first two principal components of the
+ data, as computed in Part 1.
 \end_layout
 
 \begin_layout Standard
+The 1D latent space coils back on itself when projected into this 2D space.
+ There is generally good coverage of the data, so as a model to evaluate
+ the probability of a given pose being a walking pose it might serve well,
+ but we have lost the correspondance with time.
+ Continuously varying the latent variable will give us a reconstructed path
+ in data space which does not correspond to a forward or backward walking
+ motion.
+ Ideally, the GTM model's latent space would loop around the trajectory
+ once, coming back where it started.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q1.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+TODO
+\end_layout
+
+\begin_layout Plain Layout
 - 50 samples are the samples of p(z) which is uniform and its parameters
  don't change, so the sample points are uniform and unchanging in latent
  (z) space.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 - 7 basis functions have uniform centers and some width parameters, in z-space;
  they aren't learned, just picked.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 - get a multimodal distribution p(z|x) because of overlap areas
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 - the mixture of gaussians we learn with EM is 1/K 
 \backslash
 sum p(x|z; W) so the prior for the components is always 1/K.
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 TODO - have animation of distrib p(z) as walk cycle.
  It's bad because it's multimodal for part of the walk cycle!
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 we can draw the latent space as a trajectory in 2D space because all of
  the transformations we make preserve continuity: basis expansion uses continuou
 s RBFs, matrix transform is continuous, projection onto principal components
  is continuous.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The GTM isn't taking into account the time at all - just treating all the
  values in the sequence as independent datapoints! So the 1D case with some
  overlap can actually be a good fit to the data, it just doesn't give us
@@ -633,21 +705,21 @@ The GTM isn't taking into account the time at all - just treating all the
  z goes all over the place, doesn't represent our cycle.)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 More centers -> more params to fit, can get a better fit.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 TODO - can relate (the log likelihood) to (the quality of the fit as judged
  by eyeballing the plots)
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Why do some parts of hte latent space get optimised away from the data?
  Corresponds to some number of the RBFs getting large weights in the W matrix
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We want P(z|x_n).
  Instead of computing the whole distribution we just compute the mean, and
  we are using the samples z_i to approximate this.
@@ -655,13 +727,57 @@ We want P(z|x_n).
  P(z_i|x_n)z_i
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 - In 2D, the number of samples is per dimension, so 50 x 50 samples
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 - Compute P(z_i|x_n) using bayes rule; P(x_n|z_i) is our gaussian posterior
  we define as part of the model, and P(z_i) priors are uniform.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p2q1em200.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+1D GTM model after 200 iterations of EM
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p2q1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -669,16 +785,59 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO
+We use the 
+\family typewriter
+\size footnotesize
+gtmprob
+\family default
+\size default
+ function to evaluate the probability of each frame in the sequence in the
+ model.
+ Under the assumption that the frames are IID the probability of the sequence
+ of frames is the product of these probabilities.
+ To evaluate the log likelihood, we use 
+\family typewriter
+\size footnotesize
+sum(log(P))
+\family default
+\size default
+ rather than 
+\family typewriter
+\size footnotesize
+log(prod(P))
+\family default
+\size default
+ because the latter would cause numerical underflow under IEEE floating-point
+ arithmetic.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q2.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-we use sum(log(P)) rather than log(prod(P)) because the latter will cause
- underflow
-\end_layout
+We calculate a log likelihood of -7.939e-04, which we can use to compare
+ our model with other models and choices of parameter values.
+\begin_inset VSpace defskip
+\end_inset
 
-\begin_layout Standard
--7.9385e-04
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q2.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*

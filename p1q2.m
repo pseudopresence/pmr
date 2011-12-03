@@ -1,4 +1,6 @@
 [Mu, E, Lambda, P] = getEigenvectors(sequence_X);
+fprintf(1, 'Eigenvalue %d: %4.1f\n', 1, Lambda(1));
+fprintf(1, 'Eigenvalue %d: %4.1f\n', 2, Lambda(2));
 % Get the index of the first element in P which is >= 95.
 NComponents = find(P >= 95, 1);
 % Get its value.

@@ -32,6 +32,8 @@ num_dimensions  = size(sequence_X, 2);
 %% Q1: getEigenvectors.m
 %% Q2:
 [Mu, E, Lambda, P] = getEigenvectors(sequence_X);
+fprintf(1, 'Eigenvalue %d: %4.1f\n', 1, Lambda(1));
+fprintf(1, 'Eigenvalue %d: %4.1f\n', 2, Lambda(2));
 % Get the index of the first element in P which is >= 95.
 NComponents = find(P >= 95, 1);
 % Get its value.
@@ -68,11 +70,13 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 
 %% PART 2 ------------------------------------------------------------------
 %% Q1:
-%figure(6);
-%Net = gtm1dinittrain(sequence_X, E, 50, 7, 200);
+figure(6);
+Net = gtm1dinittrain(sequence_X, E, 50, 7, 200);
 %% Q2:
-%P = gtmprob(Net, sequence_X);
-%L = sum(log(P))
+% P: [NFrames x 1]
+P = gtmprob(Net, sequence_X);
+L = sum(log(P));
+fprintf(1, 'Log likelihood of GTM model: %1.3e\n', L);
 %% Q3:
 % TODO
 %% Q4:
