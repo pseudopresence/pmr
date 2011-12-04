@@ -98,21 +98,44 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 % line('XData', Means(:, 1), 'YData', Means(:, 2));
 %% PART 3 ------------------------------------------------------------------
 %% Q1:
-[F,Mu,DiagPsi,LL] = fa(sequence_X, 2, 50);
-MMu = repmat(Mu', [num_frames 1]);
-sequence_Z_FA = (sequence_X - MMu) * pinv(F)';
-figure;
-line('XData', sequence_Z_FA(:, 1), 'YData', sequence_Z_FA(:, 2));
+% [F,Mu,DiagPsi,LL] = fa(sequence_X, 2, 50);
+% MMu = repmat(Mu', [num_frames 1]);
+% sequence_Z_FA = (sequence_X - MMu) * pinv(F)';
+% figure;
+% line('XData', sequence_Z_FA(:, 1), 'YData', sequence_Z_FA(:, 2));
 %% Q2:
 % [Deleted]
 %% Q3:
 % [No code]
 %% Q4:
-LL = fallikelihood(sequence_X, F, DiagPsi, Mu);
-fprintf(1, 'Log likelihood of FA model: %1.3e\n', LL);
+% LL = fallikelihood(sequence_X, F, DiagPsi, Mu);
+% fprintf(1, 'Log likelihood of FA model: %1.3e\n', LL);
 %% Q5:
 % TODO
 %% Q6:
 % [No code]
 %% PART 4 ------------------------------------------------------------------
+%% Q1:
+% [No code]
+%% Q2:
+rand('seed', 0);
+randn('seed', 0);
+Net = lds(sequence_X, 2);
+LL = lds_cl(Net, sequence_X, 2);
+fprintf(1, 'Log likelihood of LDS model: %1.3e\n', LL);
+%% Q3:
+% [No code]
+%% Q4:
+[sequence_Z_LDS, V] = ldspost(sequence_X, Net);
+figure;
+line('XData', -sequence_Z_LDS(:, 2), 'YData', -sequence_Z_LDS(:, 1));
+%% Q5:
+MMu = repmat(Net.Mu, [num_frames 1]);
+SeqRX = sequence_Z_LDS * Net.C' + MMu;
+skelPlayData(skeleton, SeqRX, frame_length);
+%% Q6:
+% TODO
+%% Q7:
+% TODO
+%% Q8:
 % TODO

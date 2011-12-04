@@ -1000,7 +1000,7 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 
 \begin_inset CommandInset include
 LatexCommand lstinputlisting
-filename "p2q2.log"
+filename "p3q4.log"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
 
 \end_inset
@@ -1182,6 +1182,16 @@ Question 1
 
 \begin_layout Standard
 TODO
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+LDS takes into account the order of frames in our sequence?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1189,7 +1199,31 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO
+TODO 
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p4q2.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p4q2.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1198,6 +1232,16 @@ Question 3
 
 \begin_layout Standard
 TODO
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Yes? Don't see why not...
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1208,12 +1252,52 @@ Question 4
 TODO
 \end_layout
 
+\begin_layout Standard
+We mirror and rotate the latent space to make the similarity to previous
+ plots more apparent.
+ 
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p4q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Question 5
 \end_layout
 
 \begin_layout Standard
 TODO
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+A bit wobbly at the extrema??
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p4q5.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
