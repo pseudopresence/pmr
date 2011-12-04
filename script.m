@@ -111,28 +111,64 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 % LL = fallikelihood(sequence_X, F, DiagPsi, Mu);
 % fprintf(1, 'Log likelihood of FA model: %1.3e\n', LL);
 %% Q5:
-% TODO
+% Compute a random permutation of the frames
+NFrames = num_frames;
+% Idx : 1 x NFrames
+Idx = randperm(NFrames);
+% RandSeq: [NFrames x NFeatures]
+RandSeq = sequence_X(Idx, :);
+
+NFolds = 7;
+FoldSize = NFrames/NFolds;
+Ms = [1 2 5 10 15 20 25]';
+LLTrain = zeros(size(Ms));
+LLTest = zeros(size(Ms));
+LLFull = zeros(size(Ms));
+for MIdx = 1:size(Ms)
+    M = Ms(MIdx);
+    LLTrainTot = 0;
+    LLTestTot = 0;
+    LLFullTot = 0;
+    for V = 1:NFolds
+        TestSet = RandSeq(1 : FoldSize, :);
+        TrainSet = RandSeq(FoldSize + 1 : NFrames, :);
+        RandSeq = circshift(RandSeq, 83);
+        
+        [F,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
+        
+        LLTestTot = LLTestTot + fallikelihood(TestSet, F, DiagPsi, Mu);
+        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, F, DiagPsi, Mu);
+    end
+    LLTest(MIdx) = LLTestTot/NFolds;
+    LLTrain(MIdx) = LLTrainTot/NFolds;
+end
+figure;
+plot(Ms, LLTest*NFolds);
+hold on;
+plot(Ms, LLTrain);
+    
+
 %% Q6:
 % [No code]
 %% PART 4 ------------------------------------------------------------------
 %% Q1:
 % [No code]
 %% Q2:
-rand('seed', 0);
-randn('seed', 0);
-Net = lds(sequence_X, 2);
-LL = lds_cl(Net, sequence_X, 2);
-fprintf(1, 'Log likelihood of LDS model: %1.3e\n', LL);
+% rand('seed', 0);
+% randn('seed', 0);
+% Net = lds(sequence_X, 2);
+% LL = lds_cl(Net, sequence_X, 2);
+% fprintf(1, 'Log likelihood of LDS model: %1.3e\n', LL);
 %% Q3:
 % [No code]
 %% Q4:
-[sequence_Z_LDS, V] = ldspost(sequence_X, Net);
-figure;
-line('XData', -sequence_Z_LDS(:, 2), 'YData', -sequence_Z_LDS(:, 1));
+% [sequence_Z_LDS, V] = ldspost(sequence_X, Net);
+% figure;
+% line('XData', -sequence_Z_LDS(:, 2), 'YData', -sequence_Z_LDS(:, 1));
 %% Q5:
-MMu = repmat(Net.Mu, [num_frames 1]);
-SeqRX = sequence_Z_LDS * Net.C' + MMu;
-skelPlayData(skeleton, SeqRX, frame_length);
+% MMu = repmat(Net.Mu, [num_frames 1]);
+% SeqRX = sequence_Z_LDS * Net.C' + MMu;
+% skelPlayData(skeleton, SeqRX, frame_length);
 %% Q6:
 % TODO
 %% Q7:
