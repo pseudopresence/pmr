@@ -1016,6 +1016,13 @@ Question 5
 TODO
 \end_layout
 
+\begin_layout Standard
+It makes sense to shuffle the data before splitting it into folds, because
+ otherwise the data within a fold will be strongly correlated since the
+ frames are in time order, and the folds will not be representative of the
+ sequence as a whole.
+\end_layout
+
 \begin_layout Subsection*
 Question 6
 \end_layout
@@ -1099,14 +1106,33 @@ The term
 \begin_inset Formula $W^{T}\Psi^{-1}W$
 \end_inset
 
-: O(M^2D)
+: O(DM^2)
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $I_{M}+W^{T}\Psi^{-1}W$
+\end_inset
+
+: O(DM^2)
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula $(I_{M}+W^{T}\Psi^{-1}W)^{-1}$
 \end_inset
 
-: O(M^3)
+: O(DM^2 + M^3)
 \end_layout
 
 \begin_layout Standard
@@ -1125,7 +1151,7 @@ The term
 \begin_inset Formula $W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}$
 \end_inset
 
-: O(D^2M)
+: O(D^2M + DM^2 + M^3)
 \end_layout
 
 \begin_layout Standard
@@ -1144,11 +1170,18 @@ The term
 \begin_inset Formula $\Psi^{-1}W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}\Psi^{-1}$
 \end_inset
 
-: O(D^2M)
+: O(D^2M + DM^2 + M^3)
 \end_layout
 
 \begin_layout Standard
-The above term can be computed once.
+\begin_inset Formula $\log|I_{M}+W^{T}\Psi^{-1}W|$
+\end_inset
+
+: O(M^3 + DM^2)
+\end_layout
+
+\begin_layout Standard
+The above two terms can be computed once.
 \end_layout
 
 \begin_layout Standard
@@ -1169,7 +1202,14 @@ The only part which needs to be computed for each item in the sequence is
 \begin_inset Formula $\mathbf{d}^{T}\Psi^{-1}\mathbf{d}$
 \end_inset
 
-: O(D), so the total cost for the sequence is O(DN + D^2M).
+: O(D), so the total cost for the sequence is O(DN + D^2 + DM^2 + M^3).
+\end_layout
+
+\begin_layout Standard
+TODO this is wrong-ish - if we start at the left with the d vector and do
+ every multiplication, we get O(DM^2 + M^3 for the whole thing) although
+ we have to do it N times so we get O(DNM^2 + NM^3) or something.
+ But in that case we can precompute the inner inverse part...TODO
 \end_layout
 
 \begin_layout Section
@@ -1231,17 +1271,14 @@ Question 3
 \end_layout
 
 \begin_layout Standard
-TODO
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-Yes? Don't see why not...
-\end_layout
-
-\end_inset
-
-
+Naive approaches to cross-validation would not perform well, since a shuffling
+ of the input would lose the temporal aspect which LDS tries to model; and
+ as mentioned in Part 3 Question 5, without shuffling the data within one
+ fold is strongly self-correlated and not representative of the dataset
+ as a whole.
+ One possibility would be to use one walk cycle for each fold; in the provided
+ dataset, we have only 4 complete cycles, but with more complete cycles
+ cross-validation might be workable.
 \end_layout
 
 \begin_layout Subsection*
