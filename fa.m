@@ -35,10 +35,11 @@ for loop=1:cyc
     diagSqrtPsi = sqrt(diagPsi);
     Xtilde = diag(1./diagSqrtPsi)*X/sqrt(N);
     [U,LambdaTilde,V] = svd(Xtilde,0);
-    Uh = U(:,1:K); diagLambda=diag(LambdaTilde(1:K,1:K)).^2;
+    Uh = U(:,1:K);
+    diagLambda=diag(LambdaTilde(1:K,1:K)).^2;
     F = diag(diagSqrtPsi)*Uh*diag(sqrt(diagLambda-1));
-    SigmaD = F*F'+diag(diagPsi);
-    tmp = -0.5*N*(trace(SigmaD\S) +logdet(2*pi*SigmaD));
+    SigmaD = F*F' + diag(diagPsi);
+    tmp = -0.5*N*(trace(SigmaD\S) + logdet(2*pi*SigmaD));
     if  isreal(tmp)
         LL(loop) = tmp;
         if tmp - tmpold < tol; break; end

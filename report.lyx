@@ -846,6 +846,33 @@ Question 3
 
 \begin_layout Standard
 TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "gtmTrainAndReport.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={gtmTrainAndReport.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q3.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -854,6 +881,18 @@ Question 4
 
 \begin_layout Standard
 TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -869,9 +908,33 @@ TODO
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 Using W'(x - 
 \backslash
 mu) gives results that look sensible, but why does it work??
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p3q1.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -879,7 +942,7 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO
+[Deleted]
 \end_layout
 
 \begin_layout Subsection*
@@ -888,6 +951,17 @@ Question 3
 
 \begin_layout Standard
 TODO
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Something to do with PCA removing the covariance and FA finding the covariance
+ in the data?
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -896,6 +970,42 @@ Question 4
 
 \begin_layout Standard
 TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "fallikelihood.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={fallikelihood.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p3q4.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p2q2.log"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -912,6 +1022,154 @@ Question 6
 
 \begin_layout Standard
 TODO
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\log p(\mathbf{x})=-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^{T}C^{-1}(\mathbf{x}-\boldsymbol{\mu})-\frac{1}{2}\log|C|-\frac{D}{2}\log(2\pi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbf{d}^{T}C^{-1}\mathbf{d}=\mathbf{d}^{T}\Psi^{-1}\mathbf{d}-\mathbf{d}^{T}\Psi^{-1}W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}\Psi^{-1}\mathbf{d}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\log|WW^{T}+\Psi|=\sum_{i=1}^{D}\log\Psi_{ii}+\log|I_{M}+W^{T}\Psi^{-1}W|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The term 
+\begin_inset Formula $\mathbf{d}^{T}C^{-1}\mathbf{d}$
+\end_inset
+
+ must be computed for each instance of 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+; the other two terms can be computed once each.
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Psi^{-1}$
+\end_inset
+
+: O(D)
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\mathbf{d}^{T}\Psi^{-1}\mathbf{d}$
+\end_inset
+
+: O(D)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $W^{T}\Psi^{-1}W$
+\end_inset
+
+: O(M^2D)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $(I_{M}+W^{T}\Psi^{-1}W)^{-1}$
+\end_inset
+
+: O(M^3)
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}$
+\end_inset
+
+: O(D^2M)
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\Psi^{-1}W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}\Psi^{-1}$
+\end_inset
+
+: O(D^2M)
+\end_layout
+
+\begin_layout Standard
+The above term can be computed once.
+\end_layout
+
+\begin_layout Standard
+The only part which needs to be computed for each item in the sequence is
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathbf{d}^{T}\Psi^{-1}\mathbf{d}$
+\end_inset
+
+: O(D), so the total cost for the sequence is O(DN + D^2M).
 \end_layout
 
 \begin_layout Section

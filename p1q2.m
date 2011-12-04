@@ -5,7 +5,7 @@ fprintf(1, 'Eigenvalue %d: %4.1f\n', 2, Lambda(2));
 NComponents = find(P >= 95, 1);
 % Get its value.
 Y = P(NComponents);
-figure(1);
+figure;
 plot(P);
 line([4 4], [0 Y]);
 line([0 4], [Y Y]);

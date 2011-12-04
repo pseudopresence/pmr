@@ -1,0 +1,12 @@
+Log likelihood of GTM model (50 latent points, 2 rbf centers): -1.036e+005
+Log likelihood of GTM model (50 latent points, 3 rbf centers): -9.115e+004
+Log likelihood of GTM model (50 latent points, 5 rbf centers): -8.206e+004
+Log likelihood of GTM model (50 latent points, 7 rbf centers): -7.939e+004
+Log likelihood of GTM model (50 latent points, 11 rbf centers): -7.575e+004
+Log likelihood of GTM model (50 latent points, 23 rbf centers): -6.756e+004
+
+Log likelihood of GTM model (10 latent points, 7 rbf centers): -8.787e+004
+Log likelihood of GTM model (30 latent points, 7 rbf centers): -7.995e+004
+Log likelihood of GTM model (50 latent points, 7 rbf centers): -7.939e+004
+Log likelihood of GTM model (100 latent points, 7 rbf centers): -7.724e+004
+Log likelihood of GTM model (150 latent points, 7 rbf centers): -7.775e+004

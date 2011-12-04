@@ -45,14 +45,14 @@ function net = gtm1dinittrain(X, E, num_latent_points, num_rbf_centres, num_iter
     options(14) = 1;
     options(16) = 1e-8;
         
-    fprintf('EM training of GTM...\n');
+    % fprintf('EM training of GTM...\n');
     
     for j=1:num_iterations
         
       % perform 1 EM iteration
       [net, options] = gtmem(net, X, options);
       
-      fprintf('Cycle %4d  Error %11.6f\n', j, options(8));
+      % fprintf('Cycle %4d  Error %11.6f\n', j, options(8));
       
       % project into data-space
       mix = gtmfwd(net);
