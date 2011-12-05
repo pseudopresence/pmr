@@ -9,7 +9,7 @@ if nargin < 2
 end
 FileNameRoot = regexp(FileName, '(.*)\.pdf$', 'tokens');
 FileNameEPS = [FileNameRoot{1}{1} '.eps'];
-print(Fig, '-deps', FileNameEPS);
+print(Fig, '-depsc', FileNameEPS);
 [Status, ~] = unix(['epstopdf ' FileNameEPS]);
 if Status ~= 0
     fprintf(2, 'Error running epstopdf!\n');
