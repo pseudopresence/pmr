@@ -72,7 +72,6 @@ line('XData', Z(:, 1), 'YData', Z(:, 2));
 xlabel('Component 1');
 ylabel('Component 2');
 writeFigurePDF('p1q4.pdf');
-skelPlayData(skeleton, sequence_Y, frame_length);
 
 %% PART 2 ------------------------------------------------------------------
 %% P2Q1:
@@ -159,10 +158,11 @@ for MIdx = 1:size(Ms)
     LLTest(MIdx) = LLTestTot/NFolds;
     LLTrain(MIdx) = LLTrainTot/NFolds;
 end
+% TODO normalise to NFrames scale instead, and explain why in the report.
 figure;
-plot(Ms, LLTest*NFolds, 'g');
+plot(Ms, LLTest, 'g');
 hold on;
-plot(Ms, LLTrain, 'b');
+plot(Ms, LLTrain / (NFolds-1), 'b');
 writeFigurePDF('p3q5.pdf');
 %% P3Q6:
 % [No code]
