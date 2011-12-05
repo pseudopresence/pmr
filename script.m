@@ -19,8 +19,8 @@ addtoolboxes;
 
 % load the motion capture data
 [skeleton, sequence_X, frame_length] = bvhReadFile('data/mocap-anchored.bvh');
-num_frames      = size(sequence_X, 1);
-num_dimensions  = size(sequence_X, 2);
+NFrames    = size(sequence_X, 1);
+NFeatures  = size(sequence_X, 2);
 
 %% DEMO --------------------------------------------------------------------
 
@@ -43,19 +43,19 @@ Y = P(NComponents);
 %line([0 4], [Y Y]);
 %xlabel('number of components');
 %ylabel('cumulative % variance');
-%set(gca,'XTick',sort([0:10:num_dimensions NComponents]));
+%set(gca,'XTick',sort([0:10:NFeatures NComponents]));
 %set(gca,'YTick',sort([0:10:100 Y]));
 %% Q3:
 % Visualise the mean pose.
-sequence_Y0 = makeSequence(num_frames, Mu, 0, E(:, 1));
+sequence_Y0 = makeSequence(NFrames, Mu, 0, E(:, 1));
 %figure;
 %skelPlayData(skeleton, sequence_Y0, frame_length);
 % Visualise the first component.
-sequence_Y1 = makeSequence(num_frames, Mu, Lambda(1), E(:, 1));
+sequence_Y1 = makeSequence(NFrames, Mu, Lambda(1), E(:, 1));
 %figure;
 %skelPlayData(skeleton, sequence_Y1, frame_length);
 % Visualise the second component.
-sequence_Y2 = makeSequence(num_frames, Mu, Lambda(2), E(:, 2));
+sequence_Y2 = makeSequence(NFrames, Mu, Lambda(2), E(:, 2));
 %figure;
 %skelPlayData(skeleton, sequence_Y2, frame_length);
 %% Q4:
@@ -99,7 +99,7 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 %% PART 3 ------------------------------------------------------------------
 %% Q1:
 % [F,Mu,DiagPsi,LL] = fa(sequence_X, 2, 50);
-% MMu = repmat(Mu', [num_frames 1]);
+% MMu = repmat(Mu', [NFrames 1]);
 % sequence_Z_FA = (sequence_X - MMu) * pinv(F)';
 % figure;
 % line('XData', sequence_Z_FA(:, 1), 'YData', sequence_Z_FA(:, 2));
@@ -112,41 +112,41 @@ Z = projectSequence(Mu, E, sequence_X, 2);
 % fprintf(1, 'Log likelihood of FA model: %1.3e\n', LL);
 %% Q5:
 % Compute a random permutation of the frames
-NFrames = num_frames;
-% Idx : 1 x NFrames
-Idx = randperm(NFrames);
-% RandSeq: [NFrames x NFeatures]
-RandSeq = sequence_X(Idx, :);
-
-NFolds = 7;
-FoldSize = NFrames/NFolds;
-Ms = [1 2 5 10 15 20 25]';
-LLTrain = zeros(size(Ms));
-LLTest = zeros(size(Ms));
-LLFull = zeros(size(Ms));
-for MIdx = 1:size(Ms)
-    M = Ms(MIdx);
-    LLTrainTot = 0;
-    LLTestTot = 0;
-    LLFullTot = 0;
-    for V = 1:NFolds
-        TestSet = RandSeq(1 : FoldSize, :);
-        TrainSet = RandSeq(FoldSize + 1 : NFrames, :);
-        RandSeq = circshift(RandSeq, 83);
-        
-        [F,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
-        
-        LLTestTot = LLTestTot + fallikelihood(TestSet, F, DiagPsi, Mu);
-        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, F, DiagPsi, Mu);
-    end
-    LLTest(MIdx) = LLTestTot/NFolds;
-    LLTrain(MIdx) = LLTrainTot/NFolds;
-end
-figure;
-plot(Ms, LLTest*NFolds);
-hold on;
-plot(Ms, LLTrain);
-    
+% NFrames = NFrames;
+% % Idx : 1 x NFrames
+% Idx = randperm(NFrames);
+% % RandSeq: [NFrames x NFeatures]
+% RandSeq = sequence_X(Idx, :);
+% 
+% NFolds = 7;
+% FoldSize = NFrames/NFolds;
+% Ms = [1 2 5 10 15 20 25]';
+% LLTrain = zeros(size(Ms));
+% LLTest = zeros(size(Ms));
+% LLFull = zeros(size(Ms));
+% for MIdx = 1:size(Ms)
+%     M = Ms(MIdx);
+%     LLTrainTot = 0;
+%     LLTestTot = 0;
+%     LLFullTot = 0;
+%     for V = 1:NFolds
+%         TestSet = RandSeq(1 : FoldSize, :);
+%         TrainSet = RandSeq(FoldSize + 1 : NFrames, :);
+%         RandSeq = circshift(RandSeq, 83);
+%         
+%         [F,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
+%         
+%         LLTestTot = LLTestTot + fallikelihood(TestSet, F, DiagPsi, Mu);
+%         LLTrainTot = LLTrainTot + fallikelihood(TrainSet, F, DiagPsi, Mu);
+%     end
+%     LLTest(MIdx) = LLTestTot/NFolds;
+%     LLTrain(MIdx) = LLTrainTot/NFolds;
+% end
+% figure;
+% plot(Ms, LLTest*NFolds);
+% hold on;
+% plot(Ms, LLTrain);
+%     
 
 %% Q6:
 % [No code]
@@ -154,11 +154,11 @@ plot(Ms, LLTrain);
 %% Q1:
 % [No code]
 %% Q2:
-% rand('seed', 0);
-% randn('seed', 0);
-% Net = lds(sequence_X, 2);
-% LL = lds_cl(Net, sequence_X, 2);
-% fprintf(1, 'Log likelihood of LDS model: %1.3e\n', LL);
+rand('seed', 0);
+randn('seed', 0);
+Net = lds(sequence_X, 2);
+LL = lds_cl(Net, sequence_X, 2);
+fprintf(1, 'Log likelihood of LDS model: %1.3e\n', LL);
 %% Q3:
 % [No code]
 %% Q4:
@@ -166,12 +166,23 @@ plot(Ms, LLTrain);
 % figure;
 % line('XData', -sequence_Z_LDS(:, 2), 'YData', -sequence_Z_LDS(:, 1));
 %% Q5:
-% MMu = repmat(Net.Mu, [num_frames 1]);
-% SeqRX = sequence_Z_LDS * Net.C' + MMu;
-% skelPlayData(skeleton, SeqRX, frame_length);
+% MMu = repmat(Net.Mu, [NFrames 1]);
+% sequence_Y_reconstructed = sequence_Z_LDS * Net.C' + MMu;
+% skelPlayData(skeleton, sequence_Y_reconstructed, frame_length);
 %% Q6:
-% TODO
+sequence_Y_sampled = zeros(NFrames, NFeatures);
+sequence_Z_sampled = zeros(NFrames, 2);
+sequence_Z_sampled(1, :) = Net.x0;
+% Without noise
+Noise = 1;
+for I = 2 : NFrames
+    sequence_Z_sampled(I, :) = Net.A * sequence_Z_sampled(I - 1, :)' + Noise * gsamp(zeros([1 2]), Net.Q, 1)';
+end
+for I = 1 : NFrames
+    sequence_Y_sampled(I, :) = Net.C * sequence_Z_sampled(I, :)' + Net.Mu';
+end
+skelPlayData(skeleton, sequence_Y_sampled, frame_length);
 %% Q7:
-% TODO
+% [No code]
 %% Q8:
-% TODO
+% [No code]

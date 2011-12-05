@@ -1028,165 +1028,102 @@ Question 6
 \end_layout
 
 \begin_layout Standard
-TODO
+We start with the expression for the log likelihood of a datapoint:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\log p(\mathbf{x})=-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^{T}C^{-1}(\mathbf{x}-\boldsymbol{\mu})-\frac{1}{2}\log|C|-\frac{D}{2}\log(2\pi)$
+\begin_inset Formula 
+\[
+\log p(\mathbf{x})=-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^{T}C^{-1}(\mathbf{x}-\boldsymbol{\mu})-\frac{1}{2}\log|C|-\frac{D}{2}\log(2\pi)
+\]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\mathbf{d}^{T}C^{-1}\mathbf{d}=\mathbf{d}^{T}\Psi^{-1}\mathbf{d}-\mathbf{d}^{T}\Psi^{-1}W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}\Psi^{-1}\mathbf{d}$
-\end_inset
-
-
+We are given two expansions for terms in this expression: 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\log|WW^{T}+\Psi|=\sum_{i=1}^{D}\log\Psi_{ii}+\log|I_{M}+W^{T}\Psi^{-1}W|$
+\begin_inset Formula 
+\[
+\mathbf{d}^{T}C^{-1}\mathbf{d}=\mathbf{d}^{T}\Psi^{-1}\mathbf{d}-\mathbf{d}^{T}\Psi^{-1}WA^{-1}W^{T}\Psi^{-1}\mathbf{d}
+\]
+
 \end_inset
 
 
+\begin_inset Formula 
+\[
+\log|C|=\sum_{i=1}^{D}\log\Psi_{ii}+\log|A|
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\mathbf{d}=\mathbf{x}-\boldsymbol{\mu}$
+\end_inset
+
+, 
+\begin_inset Formula $A=I_{M}+W^{T}\Psi^{-1}W$
+\end_inset
+
+, and 
+\begin_inset Formula $I_{M}$
+\end_inset
+
+ is the 
+\begin_inset Formula $M\times M$
+\end_inset
+
+ identity matrix.
 \end_layout
 
 \begin_layout Standard
-The term 
-\begin_inset Formula $\mathbf{d}^{T}C^{-1}\mathbf{d}$
-\end_inset
-
- must be computed for each instance of 
+We will consider computing the log likelihood for a single instance of 
 \begin_inset Formula $\mathbf{x}$
 \end_inset
 
-; the other two terms can be computed once each.
+.
+ For each expression, we give the total path cost of computation in the
+ order we have performed it; other orders can yield more expensive computations.
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $\Psi^{-1}$
+\begin_inset VSpace defskip
 \end_inset
 
-: O(D)
+
 \end_layout
 
 \begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $\mathbf{d}^{T}\Psi^{-1}\mathbf{d}$
+\begin_inset Formula $\begin{array}{lcll}
+\Psi^{-1} & : & O(D) & \mbox{since \ensuremath{\Psi} is diagonal.}\\
+\mathbf{d}^{T}\Psi^{-1}\mathbf{d} & : & O(D)\\
+W^{T}\Psi^{-1}W & : & O(DM^{2})\\
+I_{M}+W^{T}\Psi^{-1}W=A & : & O(DM^{2})\\
+A{}^{-1} & : & O(DM^{2}+M^{3})\\
+\mathbf{d}^{T}\Psi^{-1}W & : & O(DM)\\
+\mathbf{d}^{T}\Psi^{-1}WA^{-1} & : & O(DM^{2}+M^{3})\\
+\mathbf{d}^{T}\Psi^{-1}WA^{-1}W^{T}\Psi^{-1}\mathbf{d} & : & O(DM^{2}+M^{3})\\
+\mathbf{d}^{T}C^{-1}\mathbf{d} & : & O(DM^{2}+M^{3})\\
+\log|A| & : & O(DM^{2}+M^{3})\\
+\sum_{i=1}^{D}\log\Psi_{ii} & : & O(D)\\
+\log|C| & : & O(DM^{2}+M^{3})\\
+\log p(\mathbf{x}) & : & O(DM^{2}+M^{3})
+\end{array}$
 \end_inset
 
-: O(D)
+
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $W^{T}\Psi^{-1}W$
+\begin_inset VSpace defskip
 \end_inset
 
-: O(DM^2)
-\end_layout
-
-\begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $I_{M}+W^{T}\Psi^{-1}W$
-\end_inset
-
-: O(DM^2)
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $(I_{M}+W^{T}\Psi^{-1}W)^{-1}$
-\end_inset
-
-: O(DM^2 + M^3)
-\end_layout
-
-\begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}$
-\end_inset
-
-: O(D^2M + DM^2 + M^3)
-\end_layout
-
-\begin_layout Standard
-
-\family roman
-\series medium
-\shape up
-\size normal
-\emph off
-\bar no
-\strikeout off
-\uuline off
-\uwave off
-\noun off
-\color none
-\begin_inset Formula $\Psi^{-1}W(I_{M}+W^{T}\Psi^{-1}W)^{-1}W^{T}\Psi^{-1}$
-\end_inset
-
-: O(D^2M + DM^2 + M^3)
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\log|I_{M}+W^{T}\Psi^{-1}W|$
-\end_inset
-
-: O(M^3 + DM^2)
-\end_layout
-
-\begin_layout Standard
-The above two terms can be computed once.
-\end_layout
-
-\begin_layout Standard
-The only part which needs to be computed for each item in the sequence is
- 
+The costs of computing 
 \family roman
 \series medium
 \shape up
@@ -1199,17 +1136,35 @@ The only part which needs to be computed for each item in the sequence is
 \noun off
 \color none
 
-\begin_inset Formula $\mathbf{d}^{T}\Psi^{-1}\mathbf{d}$
+\begin_inset Formula $\mathbf{d}^{T}C^{-1}\mathbf{d}$
 \end_inset
 
-: O(D), so the total cost for the sequence is O(DN + D^2 + DM^2 + M^3).
-\end_layout
+ and 
+\begin_inset Formula $\log|C|$
+\end_inset
 
-\begin_layout Standard
-TODO this is wrong-ish - if we start at the left with the d vector and do
- every multiplication, we get O(DM^2 + M^3 for the whole thing) although
- we have to do it N times so we get O(DNM^2 + NM^3) or something.
- But in that case we can precompute the inner inverse part...TODO
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ are both 
+\begin_inset Formula $O(DM^{2}+M^{3})$
+\end_inset
+
+, and therefore the cost of computing the log likelihood is the same.
+ As long as 
+\begin_inset Formula $M<D$
+\end_inset
+
+, this is an improvement on the original cost.
 \end_layout
 
 \begin_layout Section
@@ -1343,6 +1298,18 @@ Question 6
 
 \begin_layout Standard
 TODO
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p4q6.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1359,6 +1326,19 @@ Question 8
 
 \begin_layout Standard
 TODO
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+With a discrete space, the posterior distribution is a mixture of gaussians,
+ and we are free to change the parameters of each one to maximise likelihood.
+ We will have a certain probability of transitioning from each component
+ to each other component.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
