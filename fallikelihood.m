@@ -1,8 +1,7 @@
 function LL = fallikelihood(Sequence, W, Psi, Mu)
 % INPUT Sequence: [NFrames x NFeatures]
 %           Matrix with instances as rows and features as columns.
-% TODO comment
-% TODO fa.m contains more wizardly implementation I don't understand :(
+
 [NFrames NFeatures] = size(Sequence);
 C = W * W' + diag(Psi);
 LL = 0;

@@ -19,10 +19,10 @@ for MIdx = 1:size(Ms)
         TrainSet = RandSeq(FoldSize + 1 : NFrames, :);
         RandSeq = circshift(RandSeq, 83);
         
-        [F,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
+        [W,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
         
-        LLTestTot = LLTestTot + fallikelihood(TestSet, F, DiagPsi, Mu);
-        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, F, DiagPsi, Mu);
+        LLTestTot = LLTestTot + fallikelihood(TestSet, W, DiagPsi, Mu);
+        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, W, DiagPsi, Mu);
     end
     % Compute the average across the NFolds runs
     LLTest(MIdx) = LLTestTot/NFolds;
