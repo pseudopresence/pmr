@@ -160,9 +160,6 @@ reference "fig:p1q2"
 
 , the first 4 components are enough to explain 95.8% of the variance in the
  dataset.
-\end_layout
-
-\begin_layout Standard
 \begin_inset VSpace defskip
 \end_inset
 
@@ -186,8 +183,8 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename p1q2img1.pdf
-	scale 80
+	filename p1q2.pdf
+	width 87text%
 
 \end_inset
 
@@ -287,6 +284,10 @@ reference "fig:p1q3c"
 \end_inset
 
 , captures mostly the bend of the knees and ankles.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -382,7 +383,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Component 1 at one st.
+Comp 1 at one st.
  dev.
 \end_layout
 
@@ -439,7 +440,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Component 2 at one st.
+Comp 2 at one st.
  dev.
 \end_layout
 
@@ -482,13 +483,6 @@ Visualising the principal components
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection*
 Question 4
 \end_layout
@@ -506,34 +500,7 @@ reference "fig:p1q4"
 \end_inset
 
 .
- The trajectory is repeating, and we can identify four complete walk cycles.
  
-\end_layout
-
-\begin_layout Standard
-The corners in the motion correspond to the points in the walk cycle where
- the feet touch the ground and the direction of the main component reverses.
- As we can see, the walk cycle is asymmetric; there is much less motion
- along the second component on one step as opposed to the other.
- Looking back to the original animation, we notice the gait is indeed asymmetric
-; for example, the left ankle does not bend at all whereas the right ankle
- shows clear compliance and toe-off during the walk.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-TODO - have animation of state space with walk cycle?
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset VSpace defskip
 \end_inset
 
@@ -549,6 +516,16 @@ LatexCommand lstinputlisting
 filename "projectSequence.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={projectSequence.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series medium
+\size normal
+\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -571,7 +548,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename p1q4.pdf
-	scale 80
+	width 87text%
 
 \end_inset
 
@@ -597,6 +574,17 @@ name "fig:p1q4"
 
 \end_layout
 
+\end_inset
+
+The trajectory is repeating, and we can identify four complete walk cycles.
+ The corners in the motion correspond to the points in the walk cycle where
+ the feet touch the ground and the direction of the main component reverses.
+ As we can see, the walk cycle is asymmetric; there is much less motion
+ along the second component on one step as opposed to the other.
+ Looking back to the original animation, we notice the gait is indeed asymmetric
+; for example, the left ankle does not bend at all whereas the right ankle
+ shows clear compliance and toe-off during the walk.
+\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -640,6 +628,8 @@ The 1D latent space coils back on itself when projected into this 2D space.
  motion.
  Ideally, the GTM model's latent space would loop around the trajectory
  once, coming back where it started.
+ This might be achievable if we initialise the model such that the projection
+ in data space is a cycle, before running EM.
 \begin_inset VSpace defskip
 \end_inset
 
@@ -743,13 +733,15 @@ We want P(z|x_n).
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename p2q1em200.pdf
+	filename p2q1.pdf
+	width 87text%
 
 \end_inset
 
@@ -845,7 +837,11 @@ Question 3
 \end_layout
 
 \begin_layout Standard
-TODO
+TODO Discuss
+\end_layout
+
+\begin_layout Standard
+TODO Include some sample figures
 \begin_inset VSpace defskip
 \end_inset
 
@@ -873,6 +869,68 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 \end_inset
 
 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p2q3-plotByCtrs.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Log likelihood against number of RBF centers
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p2q3-plotByPts.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Log likelihood against number of sample points
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -889,6 +947,37 @@ TODO
 LatexCommand lstinputlisting
 filename "p2q4.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p2q4.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2D latent space projection for 2D GTM model
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -914,7 +1003,14 @@ status open
 \begin_layout Plain Layout
 Using W'(x - 
 \backslash
-mu) gives results that look sensible, but why does it work??
+mu) gives results that look sensible, but why does it work?? Answer: it
+ doesn't.
+ The mistake I made in deriving is when I assume E(e|x) is 0 - but e is
+ not independent of x.
+ Maybe can relate this to the Bishop equation somehow.
+ TODO - work out why I was getting a DxD matrix for (W^TW)^-1W^T - it should
+ be DxM.
+ TODO - use the Bishop equation, will need to change the code.
 \end_layout
 
 \end_inset
@@ -931,6 +1027,37 @@ mu) gives results that look sensible, but why does it work??
 LatexCommand lstinputlisting
 filename "p3q1.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p3q1.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2D latent space projection for FA model
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -969,7 +1096,7 @@ Question 4
 \end_layout
 
 \begin_layout Standard
-TODO
+TODO - compare this to the code in fa.m :/
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1017,10 +1144,88 @@ TODO
 \end_layout
 
 \begin_layout Standard
-It makes sense to shuffle the data before splitting it into folds, because
- otherwise the data within a fold will be strongly correlated since the
- frames are in time order, and the folds will not be representative of the
- sequence as a whole.
+In general, it makes sense to shuffle the data before splitting it into
+ folds, in order to ensure that each fold is representative of the distribution
+ of the data as a whole.
+ In particular, for our dataset if we don't do this then the data within
+ a fold will be strongly correlated since the frames are in time order,
+ and some particular part of the walk cycle will be over-represented in
+ the fold.
+\end_layout
+
+\begin_layout Standard
+TODO - explain scaling of log likelihood values!
+\end_layout
+
+\begin_layout Standard
+TODO - Cross-validation gives us a way of selecting models that generalise
+ well.
+ Picking a model which is too complex, even if it fits our data, has several
+ disadvantages: it may be computationally much more expensive than a simpler
+ model, and it is more likely to generalise poorly - to overfit to the training
+ data.
+ Alternatives are full bayesian model selection, maximum a posteriori, and
+ BIC, AIC (TODO read, understand, explain.)
+\end_layout
+
+\begin_layout Standard
+TODO - comment on very large positive likelihoods.
+ something to do with pdfs.
+\end_layout
+
+\begin_layout Standard
+TODO - Average (mean, expected value) is the same as mode (maximum probability
+ density) for gaussians, but not for all distributions!
+\end_layout
+
+\begin_layout Standard
+TODO - Label all axes in all figures!!
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "p3q5.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p3q5.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Log likelihood of training set (blue) and test set (green)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1164,7 +1369,11 @@ The costs of computing
 \begin_inset Formula $M<D$
 \end_inset
 
-, this is an improvement on the original cost.
+, this reduces to 
+\begin_inset Formula $O(DM^{2})$
+\end_inset
+
+ and is an improvement on the original cost.
 \end_layout
 
 \begin_layout Section
@@ -1194,7 +1403,8 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO 
+TODO - need to compare C matrix of LDS and W matrix of FA using subspace!
+ Get a small angle-explain what this means :| 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1247,7 +1457,7 @@ TODO
 \begin_layout Standard
 We mirror and rotate the latent space to make the similarity to previous
  plots more apparent.
- 
+ TODO - explain why this is valid 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1256,6 +1466,40 @@ We mirror and rotate the latent space to make the similarity to previous
 LatexCommand lstinputlisting
 filename "p4q4.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p4q4.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+2D latent space projection for LDS model
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -1297,7 +1541,7 @@ Question 6
 \end_layout
 
 \begin_layout Standard
-TODO
+TODO - missing plot of the latent sequences!!
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1312,12 +1556,167 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p4q6-nonoise.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sampled sequence in latent space, no noise
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename p4q6-withnoise.pdf
+	width 87text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sampled sequence in latent space, with noise
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Question 7
 \end_layout
 
 \begin_layout Standard
 TODO
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Log likelihood
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FA
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TODO
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GTM
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TODO
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LDS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+TODO
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
@@ -1334,7 +1733,44 @@ With a discrete space, the posterior distribution is a mixture of gaussians,
  and we are free to change the parameters of each one to maximise likelihood.
  We will have a certain probability of transitioning from each component
  to each other component.
+ The ideal fit will have the means along the trajectory of our walk cycle,
+ variance related to the variance between cycles, and a transition matrix
+ which gives us low probabilities of all transitions except to the current
+ state and the next state along the cycle, the relative probabilities of
+ these being related to the number of discrete states and the speed of the
+ walk cycle.
 \end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Appendix A - Additional Code
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "writeFigurePDF.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={writeFigurePDF.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "makeLogFile.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={makeLogFile.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
 \end_inset
 

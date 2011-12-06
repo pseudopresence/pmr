@@ -1,5 +1,5 @@
 function [LL] = gtmTrainAndReport(Sequence, E, Pts, Ctrs)
-% gtmTrainAndReport trains a gtm model displaying a figure.
+% gtmTrainAndReport trains a gtm model, displaying a figure.
 % INPUT Sequence: [NFrames x NFeatures]
 %           Matrix with instances as rows and features as columns.
 %        E: [NFeatures x NFeatures]

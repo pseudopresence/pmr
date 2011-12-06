@@ -1,3 +1,4 @@
-MMu = repmat(Net.Mu, [num_frames 1]);
-SeqRX = sequence_Z_LDS * Net.C' + MMu;
-skelPlayData(skeleton, SeqRX, frame_length);
+MMu = repmat(Net.Mu, [NFrames 1]);
+sequence_Y_reconstructed = sequence_Z_LDS * Net.C' + MMu;
+figure;
+skelPlayData(skeleton, sequence_Y_reconstructed, frame_length);

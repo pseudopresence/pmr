@@ -41,12 +41,10 @@ NComponents = find(P >= 95, 1);
 Y = P(NComponents);
 figure;
 plot(P);
-line([4 4], [0 Y]);
-line([0 4], [Y Y]);
+line([4 4 0 4], [50 Y Y Y]);
 xlabel('number of components');
 ylabel('cumulative % variance');
-set(gca,'XTick',sort([0:10:NFeatures NComponents]));
-set(gca,'YTick',sort([0:10:100 Y]));
+set(gca,'XTick',sort([0:10:NFeatures NComponents]), 'YTick',sort([0:10:100 Y]));
 writeFigurePDF('p1q2.pdf');
 %% P1Q3:
 % Visualise the mean pose.
@@ -85,26 +83,29 @@ LL = sum(log(P));
 [Log, Cleanup] = makeLogFile('p2q2.log');
 fprintf(Log, 'Log likelihood of GTM model: %1.3e\n', LL);
 %% P2Q3:
-LLs = [];
+% Vary the number of RBF Centers
+LLs_byNCtrs = [];
 CtrValues = [2 3 5 7 11 23];
 for NCtrs = CtrValues
-    LLs(end + 1) = gtmTrainAndReport(sequence_X, E, 50, NCtrs);
+    LLs_byNCtrs(end + 1) = gtmTrainAndReport(sequence_X, E, 50, NCtrs);
     writeFigurePDF(sprintf('p2q3-%ds-%dc.pdf', 50, NCtrs));
 end
 figure;
-plot(CtrValues, LLs);
+plot(CtrValues, LLs_byNCtrs);
 writeFigurePDF('p2q3-plotByCtrs.pdf');
-LLs = [];
+% Vary the number of sample points
+LLs_ByNPts = [];
 PtValues = [10 30 50 100 150];
 for NPts = PtValues
-    LLs(end + 1) = gtmTrainAndReport(sequence_X, E, NPts, 7);
+    LLs_ByNPts(end + 1) = gtmTrainAndReport(sequence_X, E, NPts, 7);
     writeFigurePDF(sprintf('p2q3-%ds-%dc.pdf', NPts, 7));
 end
 figure;
-plot(PtValues, LLs);
+plot(PtValues, LLs_ByNPts);
 writeFigurePDF('p2q3-plotByPts.pdf');
 %% P2Q4:
 Net2D = gtm2dinittrain(sequence_X, 50, 10, 50);
+% Compute the mean latent projection of the sequence
 Means = gtmlmean(Net2D, sequence_X);
 figure;
 line('XData', Means(:, 1), 'YData', Means(:, 2));
@@ -112,9 +113,9 @@ writeFigurePDF('p2q4.pdf');
 
 %% PART 3 ------------------------------------------------------------------
 %% P3Q1:
-[F,Mu,DiagPsi,~] = fa(sequence_X, 2, 50);
+[W,Mu,DiagPsi,~] = fa(sequence_X, 2, 50);
 MMu = repmat(Mu', [NFrames 1]);
-sequence_Z_FA = (sequence_X - MMu) * pinv(F)';
+sequence_Z_FA = (sequence_X - MMu) * pinv(W)';
 figure;
 line('XData', sequence_Z_FA(:, 1), 'YData', sequence_Z_FA(:, 2));
 writeFigurePDF('p3q1.pdf');
@@ -123,7 +124,7 @@ writeFigurePDF('p3q1.pdf');
 %% P3Q3:
 % [No code]
 %% P3Q4:
-LL = fallikelihood(sequence_X, F, DiagPsi, Mu);
+LL = fallikelihood(sequence_X, W, DiagPsi, Mu);
 [Log, Cleanup] = makeLogFile('p3q4.log');
 fprintf(Log, 'Log likelihood of FA model: %1.3e\n', LL);
 %% P3Q5:
@@ -139,30 +140,32 @@ FoldSize = NFrames/NFolds;
 Ms = [1 2 5 10 15 20 25]';
 LLTrain = zeros(size(Ms));
 LLTest = zeros(size(Ms));
-LLFull = zeros(size(Ms));
 for MIdx = 1:size(Ms)
     M = Ms(MIdx);
     LLTrainTot = 0;
     LLTestTot = 0;
-    LLFullTot = 0;
     for V = 1:NFolds
         TestSet = RandSeq(1 : FoldSize, :);
         TrainSet = RandSeq(FoldSize + 1 : NFrames, :);
         RandSeq = circshift(RandSeq, 83);
         
-        [F,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
+        [W,Mu,DiagPsi,~] = fa(TrainSet, M, 50);
         
-        LLTestTot = LLTestTot + fallikelihood(TestSet, F, DiagPsi, Mu);
-        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, F, DiagPsi, Mu);
+        LLTestTot = LLTestTot + fallikelihood(TestSet, W, DiagPsi, Mu);
+        LLTrainTot = LLTrainTot + fallikelihood(TrainSet, W, DiagPsi, Mu);
     end
+    % Compute the average across the NFolds runs
     LLTest(MIdx) = LLTestTot/NFolds;
     LLTrain(MIdx) = LLTrainTot/NFolds;
 end
-% TODO normalise to NFrames scale instead, and explain why in the report.
+% We need to scale the log likelihoods by the number of instances in order
+% to make them comparable.
+LLTest = LLTest * NFolds;
+LLTrain = LLTrain * NFolds / (NFolds-1);
 figure;
 plot(Ms, LLTest, 'g');
 hold on;
-plot(Ms, LLTrain / (NFolds-1), 'b');
+plot(Ms, LLTrain, 'b');
 writeFigurePDF('p3q5.pdf');
 %% P3Q6:
 % [No code]
@@ -175,8 +178,11 @@ rand('seed', 0);
 randn('seed', 0);
 Net = lds(sequence_X, 2);
 LL = lds_cl(Net, sequence_X, 2);
-[Log, Cleanup] = makeLogFile('p4q1.log');
+[Log, Cleanup] = makeLogFile('p4q2.log');
 fprintf(Log, 'Log likelihood of LDS model: %1.3e\n', LL);
+% Compute the angle between the subspaces defined by C and W
+Theta = subspace(Net.C, W);
+fprintf(Log, 'Angle between subspaces of C and W: %3.3e (radians)\n', Theta);
 %% P4Q3:
 % [No code]
 %% P4Q4:
@@ -187,13 +193,22 @@ writeFigurePDF('p4q4.pdf');
 %% P4Q5:
 MMu = repmat(Net.Mu, [NFrames 1]);
 sequence_Y_reconstructed = sequence_Z_LDS * Net.C' + MMu;
+figure;
 skelPlayData(skeleton, sequence_Y_reconstructed, frame_length);
 %% P4Q6:
 % Without noise
 [sequence_Y_sampled, sequence_Z_sampled] = ldsSample(NFrames, Net, 0);
+figure;
+line('XData', -sequence_Z_sampled(:, 2), 'YData', -sequence_Z_sampled(:, 1));
+writeFigurePDF('p4q6-nonoise.pdf');
+figure;
 skelPlayData(skeleton, sequence_Y_sampled, frame_length);
 % With noise
 [sequence_Y_sampled, sequence_Z_sampled] = ldsSample(NFrames, Net, 1);
+figure;
+line('XData', -sequence_Z_sampled(:, 2), 'YData', -sequence_Z_sampled(:, 1));
+writeFigurePDF('p4q6-withnoise.pdf');
+figure;
 skelPlayData(skeleton, sequence_Y_sampled, frame_length);
 %% P4Q7:
 % [No code]

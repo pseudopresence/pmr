@@ -4,3 +4,4 @@ figure;
 line('XData', Z(:, 1), 'YData', Z(:, 2));
 xlabel('Component 1');
 ylabel('Component 2');
+writeFigurePDF('p1q4.pdf');
