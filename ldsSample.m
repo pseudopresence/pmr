@@ -1,5 +1,16 @@
 function [SeqY, SeqZ] = ldsSample(NFrames, Net, Noise)
-% TODO
+% ldsSample samples a sequence from the provided LDS model.
+% INPUT NFrames: [1 x 1]
+%           The number of frames to sample.
+%       Net: [1 x 1] structure
+%           The structure containing the trained model.
+%       Noise: [1 x 1]
+%           A scaling to apply to the noise in the model.
+% OUTPUT SeqY: [NFrames x NFeatures]
+%           The sampled sequence in data space.
+%        SeqZ: [NFrames x NLatent]
+%           The sampled sequence in latent space.
+
 [NFeatures NLatent] = size(Net.C);
 SeqY = zeros(NFrames, NFeatures);
 SeqZ = zeros(NFrames, NLatent);

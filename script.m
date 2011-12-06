@@ -85,7 +85,7 @@ fprintf(Log, 'Log likelihood of GTM model: %1.3e\n', LL);
 %% P2Q3:
 % Vary the number of RBF Centers
 LLs_byNCtrs = [];
-CtrValues = [2 3 5 7 11 23];
+CtrValues = [2 3 5 7 11 23 31];
 for NCtrs = CtrValues
     LLs_byNCtrs(end + 1) = gtmTrainAndReport(sequence_X, E, 50, NCtrs);
     writeFigurePDF(sprintf('p2q3-%ds-%dc.pdf', 50, NCtrs));
@@ -95,7 +95,7 @@ plot(CtrValues, LLs_byNCtrs);
 writeFigurePDF('p2q3-plotByCtrs.pdf');
 % Vary the number of sample points
 LLs_ByNPts = [];
-PtValues = [10 30 50 100 150];
+PtValues = [10 20 30 40 50 65 75 85 100 125 150];
 for NPts = PtValues
     LLs_ByNPts(end + 1) = gtmTrainAndReport(sequence_X, E, NPts, 7);
     writeFigurePDF(sprintf('p2q3-%ds-%dc.pdf', NPts, 7));

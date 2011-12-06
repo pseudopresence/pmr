@@ -72,7 +72,7 @@ Chris Swetenham (s1149322)
 \end_layout
 
 \begin_layout Date
-Dec 2, 2011
+Dec 6, 2011
 \end_layout
 
 \begin_layout Section
@@ -620,16 +620,17 @@ reference "fig:p2q1"
 
 \begin_layout Standard
 The 1D latent space coils back on itself when projected into this 2D space.
- There is generally good coverage of the data, so as a model to evaluate
- the probability of a given pose being a walking pose it might serve well,
- but we have lost the correspondance with time.
- Continuously varying the latent variable will give us a reconstructed path
+ There is generally good coverage of the data, so it might serve well as
+ a model for the probability of a given pose being a walking pose.
+ As a model of walking motion however, it is lacking any notion of time:
+ continuously varying the latent variable will give us a reconstructed path
  in data space which does not correspond to a forward or backward walking
  motion.
  Ideally, the GTM model's latent space would loop around the trajectory
  once, coming back where it started.
- This might be achievable if we initialise the model such that the projection
- in data space is a cycle, before running EM.
+ This might be achievable if we initialised the model such that the projection
+ in data space was a cycle, and then ran the EM algorithm to optimise the
+ fit.
 \begin_inset VSpace defskip
 \end_inset
 
@@ -649,7 +650,7 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 status open
 
 \begin_layout Plain Layout
-TODO
+NOTES
 \end_layout
 
 \begin_layout Plain Layout
@@ -675,7 +676,7 @@ sum p(x|z; W) so the prior for the components is always 1/K.
 \end_layout
 
 \begin_layout Plain Layout
-TODO - have animation of distrib p(z) as walk cycle.
+CUT - have animation of distrib p(z) as walk cycle.
  It's bad because it's multimodal for part of the walk cycle!
 \end_layout
 
@@ -705,7 +706,7 @@ TODO - can relate (the log likelihood) to (the quality of the fit as judged
 \end_layout
 
 \begin_layout Plain Layout
-Why do some parts of hte latent space get optimised away from the data?
+Why do some parts of the latent space get optimised away from the data?
  Corresponds to some number of the RBFs getting large weights in the W matrix
 \end_layout
 
@@ -816,8 +817,12 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 \end_layout
 
 \begin_layout Standard
-We calculate a log likelihood of -7.939e-04, which we can use to compare
- our model with other models and choices of parameter values.
+We calculate a log likelihood of 
+\begin_inset Formula $-7.939\times10^{4}$
+\end_inset
+
+, which we can use to compare our model with other models and choices of
+ parameter values.
 \begin_inset VSpace defskip
 \end_inset
 
@@ -837,11 +842,35 @@ Question 3
 \end_layout
 
 \begin_layout Standard
-TODO Discuss
+We train the same GTM model, varying the parameters of the model an measuring
+ the effect on the log likelihoods.
+ In the first experiment we vary the number of RBF centers.
+ The results are shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p2q3rbfs"
+
+\end_inset
+
+.
+ As we increase the number of RBF centers, the quality of the fit as measured
+ by the log likelihood of our training sequence increases smoothly, though
+ with diminishing returns.
 \end_layout
 
 \begin_layout Standard
-TODO Include some sample figures
+In the second experiment we vary the number of latent sample points.
+ The results are shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p2q3ctrs"
+
+\end_inset
+
+.
+ Although the overall shape is similar, there is a notable discontinuity
+ in the range of 60-100 sample points.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -895,6 +924,13 @@ Log likelihood against number of RBF centers
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p2q3rbfs"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -926,6 +962,13 @@ Log likelihood against number of sample points
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p2q3ctrs"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -938,7 +981,11 @@ Question 4
 \end_layout
 
 \begin_layout Standard
-TODO
+This time we train a GTM model with a 2D latent space.
+ We compute the mean responsibility for each frame in the latent space.
+ This projection has the same overall shape as the PCA projection, but it
+ is less smooth; it visibly jumps between points on discrete grid coordinates.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -993,7 +1040,18 @@ Question 1
 \end_layout
 
 \begin_layout Standard
-TODO
+We wish to compute the mean of the posterior projection of the original
+ sequence into the FA model's latent space.
+ In other words, we wish to compute 
+\begin_inset Formula $E(\mathbf{z}\mid\mathbf{x})$
+\end_inset
+
+.
+ Regrettably I tried to derive this from first principles and erroneously
+ concluded using the pseudo-inverse of the matrix W would be sufficient,
+ and this is what the code below uses.
+ I do not have time left to fix this, but the resulting plot should be correct
+ as far as the overall structure is concerned.
 \end_layout
 
 \begin_layout Standard
@@ -1077,7 +1135,13 @@ Question 3
 \end_layout
 
 \begin_layout Standard
-TODO
+After the PCA transformation, the data space will have been rotated to remove
+ covariance in the data.
+ Since FA attempts to discover the covariance structure of the data, it
+ would not make sense to run PCA then FA on a dataset.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Note Comment
 status open
 
@@ -1096,7 +1160,19 @@ Question 4
 \end_layout
 
 \begin_layout Standard
-TODO - compare this to the code in fa.m :/
+We implement the provided equation in MATLAB to compute the log likelihood
+ of a datapoint under the learned model:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\log p(\mathbf{x})=-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^{T}C^{-1}(\mathbf{x}-\boldsymbol{\mu})-\frac{1}{2}\log|C|-\frac{D}{2}\log(2\pi)
+\]
+
+\end_inset
+
+
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1121,6 +1197,15 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The log likelihood of our data under the learned model is 
+\begin_inset Formula $-1.521\times10^{4}$
+\end_inset
+
+, which is much better than the log likelihood under the GTM model.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1140,7 +1225,42 @@ Question 5
 \end_layout
 
 \begin_layout Standard
-TODO
+In order to choose the number of latent factors 
+\begin_inset Formula $M$
+\end_inset
+
+, we vary this parameter and use cross-validation to evaluate the performance
+ of the model using log likelihood.
+ We plot the log likelihood of the test set and the training set in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p3q5"
+
+\end_inset
+
+.
+ In order to make them comparable, they have been scaled.
+ To show why this is necessary, consider taking a data set A and constructing
+ a new dataset A2 by duplicating every instance in A.
+ The log likelihood of A2 will necessarily be twice that of A, but the model
+ does not fit A2 twice as well as A in any useful sense.
+ 
+\end_layout
+
+\begin_layout Standard
+We see that the fit to the training data is always slightly better than
+ to the test data, as would be expected, but the two continue to increase
+ as we increase 
+\begin_inset Formula $M$
+\end_inset
+
+, and so we are not overfitting the data.
+ There are clear diminishing returns in the quality of the fit as 
+\begin_inset Formula $M$
+\end_inset
+
+ increases.
 \end_layout
 
 \begin_layout Standard
@@ -1154,32 +1274,44 @@ In general, it makes sense to shuffle the data before splitting it into
 \end_layout
 
 \begin_layout Standard
-TODO - explain scaling of log likelihood values!
-\end_layout
-
-\begin_layout Standard
-TODO - Cross-validation gives us a way of selecting models that generalise
- well.
+Cross-validation gives us a way of selecting models that generalise well.
  Picking a model which is too complex, even if it fits our data, has several
  disadvantages: it may be computationally much more expensive than a simpler
  model, and it is more likely to generalise poorly - to overfit to the training
  data.
- Alternatives are full bayesian model selection, maximum a posteriori, and
- BIC, AIC (TODO read, understand, explain.)
+ Cross-validation specifically addresses the overfitting problem.
+ Alternative methods specifically penalise more complex models, or include
+ a prior over the possible parameter values of the model.
+ In the latter case we are performing Bayesian model selection and computing
+ the probability of the model given the data, rather than the likelihood
+ which is the probability of the data given the model.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+TODO read, understand, explain BIC
+\end_layout
+
+\begin_layout Plain Layout
 TODO - comment on very large positive likelihoods.
  something to do with pdfs.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 TODO - Average (mean, expected value) is the same as mode (maximum probability
  density) for gaussians, but not for all distributions!
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 TODO - Label all axes in all figures!!
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1217,6 +1349,13 @@ status open
 \begin_layout Plain Layout
 Log likelihood of training set (blue) and test set (green)
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p3q5"
 
 \end_inset
 
@@ -1385,7 +1524,12 @@ Question 1
 \end_layout
 
 \begin_layout Standard
-TODO
+LDS is similar to FA, except that it models the change of the latent variables
+ over time.
+ Since we have a sequence of data over time where one frame is clearly related
+ to and correlated with the next, LDS seems like a promising model to investigat
+e.
+ 
 \begin_inset Note Comment
 status open
 
@@ -1403,8 +1547,13 @@ Question 2
 \end_layout
 
 \begin_layout Standard
-TODO - need to compare C matrix of LDS and W matrix of FA using subspace!
- Get a small angle-explain what this means :| 
+We use the provided functions to train an LDS model on the dataset.
+ We compute the log likelihood of the data under the model, and compute
+ the subspace angle between the C matrix of the LDS model and the W matrix
+ of the FA model from the last part.
+ This is an interesting comparaison because the matrices both map from a
+ 2D latent space to the data space.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1417,6 +1566,19 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The resulting log likelihood is 
+\begin_inset Formula $-1.21\times10^{4}$
+\end_inset
+
+, the best achieved so far.
+ The angle between the two matrices is very small, suggesting that the improveme
+nt in the LDS model over the FA model comes from modelling the latent variables
+ over time, rather than by improving the learned mapping between latent
+ and data space.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1451,13 +1613,34 @@ Question 4
 \end_layout
 
 \begin_layout Standard
-TODO
+We use the provided function 
+\family typewriter
+\size footnotesize
+ldspost
+\family default
+\size default
+ to infer the posterior distribution of the latent states.
+ The result is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p4q4"
+
+\end_inset
+
+.
+ We mirror and rotate the latent space to make the similarity to previous
+ plots more apparent.
+ 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+TODO - explain why this is valid
 \end_layout
 
-\begin_layout Standard
-We mirror and rotate the latent space to make the similarity to previous
- plots more apparent.
- TODO - explain why this is valid 
+\end_inset
+
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1499,6 +1682,13 @@ status open
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p4q4"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1511,17 +1701,9 @@ Question 5
 \end_layout
 
 \begin_layout Standard
-TODO
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-A bit wobbly at the extrema??
-\end_layout
-
-\end_inset
-
-
+Based on the sequence of inferred latent states, we can reconstruct the
+ original movie by projecting back into data space.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1536,12 +1718,46 @@ lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m
 
 \end_layout
 
+\begin_layout Standard
+The resulting walk cycle is reasonably close to the original, although it
+ suffers from some oscillations at the start and end of each footstep when
+ the direction of movement reverses.
+\end_layout
+
 \begin_layout Subsection*
 Question 6
 \end_layout
 
 \begin_layout Standard
-TODO - missing plot of the latent sequences!!
+Unlike previously examined models, the LDS model allows us to generate a
+ new sequence.
+ We initialise the latent variables to their mean value and run the model
+ forward, both with and without noise.
+ The sequence without noise, shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p4q6-nonoise"
+
+\end_inset
+
+, is a clear spiral.
+ This is not a close approximation of the more triangular shape of the latent
+ space reconstruction above.
+ The model will eventually settle down to a stable point.
+\end_layout
+
+\begin_layout Standard
+The sequence with noise, shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:p4q6-withnoise"
+
+\end_inset
+
+, produces very jerky motion.
+ The magnitude of the noise corresponds to the error in modelling the original
+ trajectory of our data in latent space.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -1550,6 +1766,18 @@ TODO - missing plot of the latent sequences!!
 LatexCommand lstinputlisting
 filename "p4q6.m"
 lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={script.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "ldsSample.m"
+lstparams "basicstyle={\\scriptsize\\ttfamily},breaklines=true,caption={ldsSample.m},captionpos=b,commentstyle={\\color{OliveGreen}},frame=tb,language=Matlab"
 
 \end_inset
 
@@ -1579,6 +1807,13 @@ status open
 \begin_layout Plain Layout
 Sampled sequence in latent space, no noise
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p4q6-nonoise"
 
 \end_inset
 
@@ -1614,6 +1849,13 @@ Sampled sequence in latent space, with noise
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:p4q6-withnoise"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1626,14 +1868,24 @@ Question 7
 \end_layout
 
 \begin_layout Standard
-TODO
+If we compare the log likelihoods of the data under each of our models,
+ we can see that 2D FA is a much better model for the data than 1D GTM.
+ 2D LDS improves on the performance of FA by modelling the change in latent
+ variables over time.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="2">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1642,7 +1894,7 @@ Model
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1653,60 +1905,69 @@ Log likelihood
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-FA
+2D FA
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-TODO
-\end_layout
-
+\begin_inset Formula $-1.521\times10^{4}$
 \end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
 
-\begin_layout Plain Layout
-GTM
-\end_layout
 
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-TODO
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-LDS
+1D GTM
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-TODO
+\begin_inset Formula $-7.939\times10^{4}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2D LDS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-1.210\times10^{4}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1724,23 +1985,19 @@ Question 8
 \end_layout
 
 \begin_layout Standard
-TODO
-\begin_inset Note Comment
-status open
-
-\begin_layout Plain Layout
-With a discrete space, the posterior distribution is a mixture of gaussians,
- and we are free to change the parameters of each one to maximise likelihood.
+In a HMM with a discrete state space, the posterior distribution is a mixture
+ of gaussians, and we are free to change the parameters of each one to maximise
+ likelihood.
  We will have a certain probability of transitioning from each component
  to each other component.
- The ideal fit will have the means along the trajectory of our walk cycle,
- variance related to the variance between cycles, and a transition matrix
+ The ideal fit will have means along the trajectory of our walk cycle, variance
+ related to the variance between successive cycles, and a transition matrix
  which gives us low probabilities of all transitions except to the current
- state and the next state along the cycle, the relative probabilities of
- these being related to the number of discrete states and the speed of the
- walk cycle.
-\end_layout
-
+ state and the next state along the cycle.
+ The relative probabilities of staying in the current state and moving to
+ the next state would be related to the number of discrete states and the
+ speed of the walk cycle.
+\begin_inset Newpage pagebreak
 \end_inset
 
 
